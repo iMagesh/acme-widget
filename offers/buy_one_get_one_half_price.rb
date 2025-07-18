@@ -17,7 +17,7 @@ class BuyOneGetOneHalfPrice < BaseOffer
     item_counts[@code] = count % 2
 
     # Calculate total for all pairs, truncating half price before multiplying
-    subtotal = (pairs * price + pairs * (price / 2).truncate(2)).truncate(2)
+    subtotal = (pairs * price).truncate(2) + (pairs * (price / 2).truncate(2)).truncate(2)
     subtotal
   end
 end
