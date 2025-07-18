@@ -1,19 +1,17 @@
 # catalogue_data.rb
 # Product, delivery, and offer data for Acme Widget Co
 
+require 'yaml'
 require_relative 'offers/all'
 
-PRODUCTS = {
-  "R01" => { name: "Red Widget", price: 32.95 },
-  "G01" => { name: "Green Widget", price: 24.95 },
-  "B01" => { name: "Blue Widget", price: 7.95 }
-}
+PRODUCTS = YAML.load_file(File.join(__dir__, 'config/products.yml'))
 
-DELIVERY_RULES = [
-  { threshold: 50, charge: 4.95 },
-  { threshold: 90, charge: 2.95 },
-  { threshold: Float::INFINITY, charge: 0.0 }
-]
+raw_delivery_rules = YAML.load_file(File.join(__dir__, 'config/delivery_rules.yml'))
+
+DELIVERY_RULES = raw_delivery_rules.map do |rule|
+  threshold = rule['threshold'] == 'Infinity' ? Float::INFINITY : rule['threshold']
+  { threshold: threshold, charge: rule['charge'] }
+end
 
 CATALOGUE = ProductCatalogue.new(PRODUCTS)
 DELIVERY = DeliveryRule.new(DELIVERY_RULES)

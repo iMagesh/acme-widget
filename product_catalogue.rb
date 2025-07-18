@@ -6,14 +6,15 @@ class ProductCatalogue
 
   def price(code)
     raise "Unknown product code: #{code}" unless valid_code?(code)
-    @products[code][:price]
+    prod = @products[code.to_s]
+    prod ? prod['price'] || prod[:price] : nil
   end
 
   def valid_code?(code)
-    @products.key?(code)
+    @products.key?(code.to_s)
   end
 
   def [](code)
-    @products[code]
+    @products[code.to_s]
   end
 end
