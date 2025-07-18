@@ -18,36 +18,42 @@ end
 puts "Running basket tests..."
 
 test_cases = [
+  # Basic basket scenarios
   {
     products: ["B01", "G01"],
     expected: "$37.85",
     comment: "Blue + Green, no offers, subtotal $37.85, delivery $0.00"
   },
 
+  # Red widget offer scenarios
   {
     products: ["R01", "R01"],
     expected: "$54.37",
     comment: "2x Red, offer applies: $32.95 + $16.47 = $49.42, delivery $4.95, total $54.37"
   },
 
+  # Mixed basket scenarios
   {
     products: ["R01", "G01"],
     expected: "$60.85",
     comment: "Red + Green, no offer, subtotal $57.90, delivery $2.95, total $60.85"
   },
 
+  # Large basket scenarios
   {
     products: ["B01", "B01", "R01", "R01", "R01"],
     expected: "$98.27",
     comment: "2x Blue, 3x Red, offer applies to 1 pair: $49.42 + $32.95 + $15.90 = $98.27, delivery $0.00"
   },
 
+  # Empty basket scenario
   {
     products: [],
     expected: "$0.00",
     comment: "Empty basket, total $0.00"
   },
 
+  # Single item scenarios
   {
     products: ["B01"],
     expected: "$12.90",
@@ -66,36 +72,75 @@ test_cases = [
     comment: "1x Red, subtotal $32.95, delivery $4.95, total $37.90"
   },
 
+  # Odd numbers of red widgets
   {
     products: ["R01", "R01", "R01"],
     expected: "$85.32",
     comment: "3x Red, offer applies to 1 pair: $49.42 + $32.95 = $82.37, delivery $2.95, total $85.32"
   },
+  {
+    products: ["R01", "R01", "R01", "R01", "R01"],
+    expected: "$131.79",
+    comment: "5x Red, 2 pairs with offer ($49.42 x2), 1x full price ($32.95), subtotal $131.79, delivery $0, total $131.79"
+  },
+  {
+    products: ["R01", "R01", "R01", "R01", "R01", "R01", "R01"],
+    expected: "$181.21",
+    comment: "7x Red, 3 pairs with offer ($49.42 x3), 1 full-price ($32.95), subtotal $181.21, delivery $0.00, total $181.21"
+  },
+  # Delivery threshold boundaries
+  {
+    products: ["B01", "B01", "B01", "B01", "B01", "B01", "B01"],
+    expected: "$58.60",
+    comment: "7x Blue, subtotal $55.65, delivery $2.95 (mid-tier threshold applied), total $58.60"
+  },
+  {
+    products: ["G01", "G01", "G01", "G01"],
+    expected: "$99.80",
+    comment: "4x Green, subtotal $99.80, delivery $0.00 (free delivery threshold met)"
+  },
+  # Basket with only one red widget (no offer)
+  {
+    products: ["R01"],
+    expected: "$37.90",
+    comment: "1x Red, no offer, subtotal $32.95, delivery $4.95, total $37.90"
+  },
+  # Duplicate offer scenario for two red widgets
+  {
+    products: ["R01", "R01"],
+    expected: "$54.37",
+    comment: "2x Red, offer applies: $32.95 + $16.47 = $49.42, delivery $4.95, total $54.37 (duplicate offer test)"
+  },
 
+  # Mixed large basket scenario
   {
     products: ["R01", "R01", "R01", "R01", "G01", "B01"],
     expected: "$131.74",
     comment: "4x Red (2 pairs), 1x Green, 1x Blue: $98.84 + $24.95 + $7.95 = $131.74, delivery $0.00"
   },
 
+  # Multiple blue widgets scenario
   {
     products: ["B01", "B01", "B01", "B01", "B01", "B01"],
     expected: "$52.65",
     comment: "6x Blue, subtotal $47.70, delivery $4.95, total $52.65"
   },
 
+  # Multiple green widgets scenario
   {
     products: ["G01", "G01", "G01"],
     expected: "$77.80",
     comment: "3x Green, subtotal $74.85, delivery $2.95, total $77.80"
   },
 
+  # Two green widgets scenario
   {
     products: ["G01", "G01"],
     expected: "$54.85",
     comment: "2x Green, subtotal $49.90, delivery $4.95, total $54.85"
   },
 
+  # Green and blue widgets scenario
   {
     products: ["G01", "G01", "B01"],
     expected: "$60.80",
