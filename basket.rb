@@ -1,12 +1,16 @@
 require_relative 'product_catalogue'
 require_relative 'delivery_rule'
+require_relative 'offers/all' # Load all offers
+# --- Data setup ---
+require_relative 'catalogue_data'
 
 # Main basket class
 class Basket
-  def initialize(catalogue:, delivery_rule:)
+  def initialize(catalogue:, delivery_rule:, offers: [])
     @catalogue = catalogue
     @delivery_rule = delivery_rule
     @items = []
+    @offers = offers
   end
 
   def add(product_code)
@@ -18,11 +22,18 @@ class Basket
     item_counts = @items.tally
     subtotal = 0.0
 
+    # Apply all offers (each can mutate item_counts)
+    @offers.each do |offer|
+      subtotal += offer.apply(item_counts, @catalogue)
+    end
+
+    # Add remaining items not covered by offers
     item_counts.each do |code, count|
       subtotal += @catalogue.price(code) * count if count > 0
     end
 
     # Delivery charge
+    subtotal = subtotal.round(2)
     delivery = @delivery_rule.charge(subtotal)
     total = subtotal + delivery
     format("$%.2f", total)
@@ -30,24 +41,7 @@ class Basket
 end
 
 # Usage example (uncomment to test)
-PRODUCTS = {
-  "R01" => { name: "Red Widget", price: 32.95 },
-  "G01" => { name: "Green Widget", price: 24.95 },
-  "B01" => { name: "Blue Widget", price: 7.95 }
-}
-
-DELIVERY_RULES = [
-  { threshold: 50, charge: 4.95 },
-  { threshold: 90, charge: 2.95 },
-  { threshold: Float::INFINITY, charge: 0.0 }
-]
-
-catalogue = ProductCatalogue.new(PRODUCTS)
-
-delivery_rule = DeliveryRule.new(DELIVERY_RULES)
-
-basket = Basket.new(catalogue:, delivery_rule:)
-
+basket = Basket.new(catalogue: CATALOGUE, delivery_rule: DELIVERY, offers: OFFERS)
 basket.add("R01")
 basket.add("R01")
-puts basket.total
+puts basket.total # => "$37.85"
