@@ -6,6 +6,7 @@ class DeliveryRule
 
   def charge(subtotal)
     rule = @rules.find { |r| subtotal < r[:threshold] }
+    # puts "Delivery charge for subtotal $#{subtotal}: $#{rule ? rule[:charge] : 0.0}"
     rule ? rule[:charge] : 0.0
   end
 end

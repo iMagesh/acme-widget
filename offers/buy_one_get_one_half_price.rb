@@ -1,9 +1,9 @@
 require 'bigdecimal'
 require 'bigdecimal/util'
-# offers/buy_one_get_one_half_price.rb
+
 require_relative 'base_offer'
 
-class BuyOneGetOneHalfPrice < Offer
+class BuyOneGetOneHalfPrice < BaseOffer
   def initialize(code)
     @code = code
   end
