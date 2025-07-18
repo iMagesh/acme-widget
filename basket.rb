@@ -33,20 +33,22 @@ class Basket
   private
 
   def apply_offers(item_counts)
-    @offers.reduce(BigDecimal("0.0")) do |sum, offer|
-      sum + BigDecimal(offer.apply(item_counts, @catalogue).to_s)
+    total = BigDecimal("0.0")
+    @offers.each do |offer|
+      total += BigDecimal(offer.apply(item_counts, @catalogue).to_s)
     end
+    total
   end
 
   def remaining_items_total(item_counts)
-    item_counts.reduce(BigDecimal("0.0")) do |sum, (code, count)|
+    total = BigDecimal("0.0")
+    item_counts.each do |code, count|
       if count > 0
-        price = BigDecimal(@catalogue.price(code).to_s)
-        sum + count.times.map { price.truncate(2) }.sum
-      else
-        sum
+        price = BigDecimal(@catalogue.price(code).to_s).truncate(2)
+        total += price * count
       end
     end
+    total
   end
 
   def delivery_charge(subtotal)
