@@ -5,6 +5,7 @@ class ProductCatalogue
   end
 
   def price(code)
+    raise "Unknown product code: #{code}" unless valid_code?(code)
     @products[code][:price]
   end
 
