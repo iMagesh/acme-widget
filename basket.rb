@@ -1,3 +1,6 @@
+require 'bigdecimal'
+require 'bigdecimal/util'
+
 require_relative 'product_catalogue'
 require_relative 'delivery_rule'
 require_relative 'offers/all' # Load all offers
@@ -20,21 +23,21 @@ class Basket
 
   def total
     item_counts = @items.tally
-    subtotal = 0.0
+    subtotal = BigDecimal("0.0")
 
     # Apply all offers (each can mutate item_counts)
     @offers.each do |offer|
-      subtotal += offer.apply(item_counts, @catalogue)
+      subtotal += BigDecimal(offer.apply(item_counts, @catalogue).to_s)
     end
 
     # Add remaining items not covered by offers
     item_counts.each do |code, count|
-      subtotal += @catalogue.price(code) * count if count > 0
+      subtotal += BigDecimal(@catalogue.price(code).to_s) * count if count > 0
     end
 
-    # Delivery charge
-    subtotal = subtotal.round(2)
-    delivery = @delivery_rule.charge(subtotal)
+    # Retail rounding (truncate to 2 decimals)
+    subtotal = subtotal.truncate(2)
+    delivery = subtotal == 0 ? 0.0 : @delivery_rule.charge(subtotal.to_f)
     total = subtotal + delivery
     format("$%.2f", total)
   end
