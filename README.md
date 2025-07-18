@@ -34,6 +34,9 @@ puts basket.total # => "$37.85"
 - The basket only accepts valid product codes; invalid codes raise an error.
 - Offers are applied before delivery charges.
 
+- No sales tax or VAT is applied; all prices are assumed to be final.
+- Only the specified offer is implemented; other discounts or promotions are not supported.
+
 ## Test Cases
 
 | Products                | Expected Total |
