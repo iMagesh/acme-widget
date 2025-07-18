@@ -28,8 +28,6 @@ basket.add("R01")
 puts basket.total # => "$75.75"
 ```
 
-## Assumptions
-
 ## System Details & Assumptions
 
 - Product codes are unique and must exist in the catalogue.
@@ -42,7 +40,7 @@ puts basket.total # => "$75.75"
 - No sales tax or VAT is applied; all prices are assumed to be final.
 - Only the specified offer is implemented; other discounts or promotions are not supported.
 
-## Test Cases
+## Sample Test Cases
 
 | Products                | Expected Total |
 | ----------------------- | -------------- |
