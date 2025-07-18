@@ -68,5 +68,14 @@ Folder structure:
 - `product_catalogue.rb` - Product catalogue
 - `delivery_rule.rb` - Delivery charge rules
 - `offers/` - Offer strategies
+  - `base.rb` - Offer base class
+  - `buy_one_get_one_half_price.rb` - Red widget offer logic
+  - `all_offers.rb` - Offer loader/registry
 - `catalogue_data.rb` - Data setup
 - `tests/basket.rb` - Test cases
+
+### Offer System
+
+The offer system uses a base class (`offers/base.rb`) that defines the interface for all offer strategies. The current implementation includes one offer: `buy_one_get_one_half_price.rb`, which applies a "buy one red widget, get the second half price" discount to every pair of red widgets in the basket.
+
+To add more offers, create a new class file in the `offers/` folder following the pattern in `buy_one_get_one_half_price.rb` and register it in `all_offers.rb`.
