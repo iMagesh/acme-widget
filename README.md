@@ -8,6 +8,10 @@ This Ruby project implements a shopping basket for Acme Widget Co, supporting:
 - Delivery charge rules
 - Special offers ("buy one red widget, get the second half price")
 
+# Prerequisites
+
+- Ruby (>= 3.0 recommended)
+
 ## Usage
 
 1. Initialize the `Basket` with the product catalogue, delivery rules, and offers.
@@ -16,24 +20,25 @@ This Ruby project implements a shopping basket for Acme Widget Co, supporting:
 
 ## Example
 
-```
+```ruby
 basket = Basket.new(catalogue: CATALOGUE, delivery_rule: DELIVERY, offers: OFFERS)
 basket.add("B01")
 basket.add("G01")
-puts basket.total # => "$37.85"
+basket.add("R01")
+puts basket.total # => "$75.75"
 ```
 
 ## Assumptions
 
+## System Details & Assumptions
+
 - Product codes are unique and must exist in the catalogue.
-- Delivery charge is based on the subtotal after offers are applied.
+- The basket tracks items by product code and only accepts valid codes (invalid codes raise an error).
+- Offers are applied before delivery charges, based on the subtotal after offers.
+- Delivery charge rules are checked in order, using the first matching threshold.
+- Retail rounding (truncate to two decimals) is used for all price calculations, matching real-world receipts.
 - The red widget offer applies to every pair of red widgets in the basket.
 - Prices and delivery charges are hardcoded for this proof of concept.
-
-- Retail rounding (truncate to two decimals) is used for all price calculations, matching real-world receipts.
-- The basket only accepts valid product codes; invalid codes raise an error.
-- Offers are applied before delivery charges.
-
 - No sales tax or VAT is applied; all prices are assumed to be final.
 - Only the specified offer is implemented; other discounts or promotions are not supported.
 
@@ -52,30 +57,41 @@ puts basket.total # => "$37.85"
 - Offers are applied before delivery charges.
 - Delivery charge rules are checked in order, using the first matching threshold.
 
-## Running
+## Running Tests
 
-This is a standalone Ruby file. No external dependencies required.
+To run the test suite and see pass/fail results:
 
-To run the test suite:
-
-```
+```sh
 ruby tests/basket.rb
 ```
 
-Folder structure:
+You will see output for each test case, e.g.:
 
-- `basket.rb` - Main basket logic
-- `product_catalogue.rb` - Product catalogue
-- `delivery_rule.rb` - Delivery charge rules
-- `offers/` - Offer strategies
-  - `base.rb` - Offer base class
-  - `buy_one_get_one_half_price.rb` - Red widget offer logic
-  - `all_offers.rb` - Offer loader/registry
-- `catalogue_data.rb` - Data setup
-- `tests/basket.rb` - Test cases
+```
+PASS: B01, G01 => $37.85 (expected $37.85)
+  Scenario: Blue + Green, no offers, subtotal $37.85, delivery $0.00
+------------------------------------------------------------
+```
+
+## Folder structure:
+
+```text
+basket.rb                  # Main basket logic
+product_catalogue.rb       # Product catalogue
+delivery_rule.rb           # Delivery charge rules
+offers/                    # Offer strategies
+  base.rb                  # Offer base class
+  buy_one_get_one_half_price.rb  # Red widget offer logic
+  all_offers.rb            # Offer loader/registry
+catalogue_data.rb          # Data setup (can be replaced with a database, YAML, or JSON in a real system)
+tests/basket.rb            # Test cases
+```
 
 ### Offer System
 
-The offer system uses a base class (`offers/base.rb`) that defines the interface for all offer strategies. The current implementation includes one offer: `buy_one_get_one_half_price.rb`, which applies a "buy one red widget, get the second half price" discount to every pair of red widgets in the basket.
+The offer system uses a base class (`offers/base.rb`) that defines the interface for all offer strategies. To add a new offer:
 
-To add more offers, create a new class file in the `offers/` folder following the pattern in `buy_one_get_one_half_price.rb` and register it in `all_offers.rb`.
+1. Create a new class in the `offers/` folder, inheriting from `Base` and implementing the required methods.
+2. Register your offer in `all_offers.rb` so it is available to the basket.
+
+The current implementation includes one offer: `buy_one_get_one_half_price.rb`, which applies a "buy one red widget, get the second half price" discount to every pair of red widgets in the basket.
