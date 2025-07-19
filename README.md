@@ -81,9 +81,16 @@ offers/                    # Offer strategies
   base.rb                  # Offer base class
   buy_one_get_one_half_price.rb  # Red widget offer logic
   all_offers.rb            # Offer loader/registry
-catalogue_data.rb          # Data setup (can be replaced with a database, YAML, or JSON in a real system)
+catalogue_data.rb          # Loads product and delivery data from YAML
+config/products.yml        # Product catalogue (edit to change products/prices)
+config/delivery_rules.yml  # Delivery rules (edit to change thresholds/charges)
 tests/basket.rb            # Test cases
 ```
+
+- Prices and delivery charges are hardcoded for this proof of concept.
+
+* Product and delivery data are now loaded from YAML files (`config/products.yml` and `config/delivery_rules.yml`).
+  You can change products, prices, or delivery rules by editing these files.
 
 ### Offer System
 
