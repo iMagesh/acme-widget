@@ -14,6 +14,7 @@ class BuyOneGetOneHalfPrice < BaseOffer
 
     price = catalogue.price(@code).to_d
     pairs = count / 2
+    # Update item_counts to reflect remaining items not covered by the offer
     item_counts[@code] = count % 2
 
     # Calculate total for all pairs, truncating half price before multiplying

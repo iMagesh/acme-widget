@@ -163,6 +163,6 @@ end
 # Invalid product code (should raise error)
 begin
   test_basket(["INVALID"], "ERROR", "Invalid product code should raise error")
-rescue => e
+rescue UnknownProductCodeError => e
   puts "PASS: INVALID => ERROR (raised #{e.class})"
 end

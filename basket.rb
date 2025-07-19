@@ -17,7 +17,7 @@ class Basket
   end
 
   def add(product_code)
-    raise "Unknown product code: #{product_code}" unless @catalogue.valid_code?(product_code)
+    raise UnknownProductCodeError, "Unknown product code: #{product_code}" unless @catalogue.valid_code?(product_code)
     @items << product_code
   end
 

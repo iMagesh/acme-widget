@@ -5,7 +5,7 @@ class ProductCatalogue
   end
 
   def price(code)
-    raise "Unknown product code: #{code}" unless valid_code?(code)
+    raise UnknownProductCodeError, "Unknown product code: #{code}" unless valid_code?(code)
     prod = @products[code.to_s]
     prod ? prod['price'] || prod[:price] : nil
   end
@@ -18,3 +18,5 @@ class ProductCatalogue
     @products[code.to_s]
   end
 end
+
+class UnknownProductCodeError < StandardError; end
