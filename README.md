@@ -25,7 +25,7 @@ basket = Basket.new(catalogue: CATALOGUE, delivery_rule: DELIVERY, offers: OFFER
 basket.add("B01")
 basket.add("G01")
 basket.add("R01")
-puts basket.total # => "$75.75"
+puts basket.total # => "$68.80"
 ```
 
 ## System Details & Assumptions
