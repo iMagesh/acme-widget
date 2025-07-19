@@ -3,6 +3,15 @@
 
 require_relative '../basket'
 
+# Prints the result of a basket test in a consistent format
+def print_test_result(status, products, result, expected, comment)
+  puts "#{status}:" 
+  puts " Scenario: #{comment}\n\n"
+  puts " Products: #{products.join(', ')}" 
+  puts " Results: => #{result} (expected #{expected})"
+  puts "#{'-'*60}\n\n"
+end
+
 # Runs a basket test and prints the result.
 # products: array of product codes
 # expected: expected total as string
@@ -11,8 +20,7 @@ def test_basket(products, expected, comment)
   products.each { |code| basket.add(code) }
   result = basket.total
   status = result == expected ? "PASS" : "FAIL"
-  puts "#{status}: #{products.join(', ')} => #{result} (expected #{expected})\n  Scenario: #{comment}"
-  puts "#{'-'*60}"
+  print_test_result(status, products, result, expected, comment)
 end
 
 puts "Running basket tests..."
@@ -22,7 +30,7 @@ test_cases = [
   {
     products: ["B01", "G01"],
     expected: "$37.85",
-    comment: "Blue + Green, no offers, subtotal $37.85, delivery $0.00"
+    comment: "Blue + Green, no offers, subtotal $37.85, delivery $4.95"
   },
 
   # Red widget offer scenarios
