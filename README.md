@@ -103,6 +103,17 @@ acme-widget/
 The offer system uses a base class (`offers/base.rb`) that defines the interface for all offer strategies. To add a new offer:
 
 1. Create a new class in the `offers/` folder, inheriting from `Base` and implementing the required methods.
-2. Register your offer in `all_offers.rb` so it is available to the basket.
+2. Require or register your offer class in `offers/all.rb` so it is loaded by the system.
+3. Register your offer instance in the `OFFERS` array in `data/catalogue_data.rb` so it is available to the basket.
+
+For example, to add a new offer:
+
+```ruby
+# In offers/all_offers.rb (or offers/all.rb):
+require_relative 'my_new_offer'
+
+# In data/catalogue_data.rb:
+OFFERS = [BuyOneGetOneHalfPrice.new("R01"), MyNewOffer.new("G01")]
+```
 
 The current implementation includes one offer: `buy_one_get_one_half_price.rb`, which applies a "buy one red widget, get the second half price" discount to every pair of red widgets in the basket.
