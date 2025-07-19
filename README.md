@@ -31,10 +31,10 @@ puts basket.total # => "$75.75"
 ## System Details & Assumptions
 
 - Product codes are unique and must exist in the catalogue.
-- The basket tracks items by product code and only accepts valid codes (invalid codes raise an error).
+- The basket tracks items by product code and only accepts valid codes (invalid codes raise an `UnknownProductCodeError`).
 - Offers are applied before delivery charges, based on the subtotal after offers.
 - Delivery charge rules are checked in order, using the first matching threshold.
-- Retail rounding (truncate to two decimals) is used for all price calculations, matching real-world receipts.
+- Retail rounding (truncate to two decimals) is used for all price calculations, matching real-world receipts and business rules.
 - The red widget offer applies to every pair of red widgets in the basket.
 - Prices and delivery charges are hardcoded for this proof of concept.
 - No sales tax or VAT is applied; all prices are assumed to be final.
@@ -84,7 +84,8 @@ acme-widget/
 |   |-- base.rb                # Offer base class
 |   |-- buy_one_get_one_half_price.rb  # Red widget offer logic
 |   |-- all_offers.rb          # Offer loader/registry
-|-- catalogue_data.rb          # Loads product and delivery data from YAML
+|-- data/
+|   |-- catalogue_data.rb      # Loads product and delivery data from YAML
 |-- config/
 |   |-- products.yml           # Product catalogue (edit to change products/prices)
 |   |-- delivery_rules.yml     # Delivery rules (edit to change thresholds/charges)
