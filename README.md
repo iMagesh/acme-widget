@@ -66,8 +66,11 @@ ruby tests/basket.rb
 You will see output for each test case, e.g.:
 
 ```
-PASS: B01, G01 => $37.85 (expected $37.85)
-  Scenario: Blue + Green, no offers, subtotal $37.85, delivery $0.00
+PASS:
+ Scenario: Blue + Green, no offers, subtotal $37.85, delivery $4.95
+
+ Products: B01, G01
+ Results: => $37.85 (expected $37.85)
 ------------------------------------------------------------
 ```
 
