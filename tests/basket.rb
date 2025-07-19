@@ -156,7 +156,9 @@ test_cases = [
   }
 ]
 
-test_cases.each { |tc| test_basket(tc[:products], tc[:expected], tc[:comment]) }
+test_cases.each do |test_case| 
+  test_basket(test_case[:products], test_case[:expected], test_case[:comment])
+end
 
 # Invalid product code (should raise error)
 begin
