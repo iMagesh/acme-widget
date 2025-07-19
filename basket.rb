@@ -33,7 +33,7 @@ class Basket
   private
 
   def apply_offers(item_counts)
-    total = BigDecimal("0.0")
+    total = zero_big_decimal
     @offers.each do |offer|
       total += BigDecimal(offer.apply(item_counts, @catalogue).to_s)
     end
@@ -41,7 +41,7 @@ class Basket
   end
 
   def remaining_items_total(item_counts)
-    total = BigDecimal("0.0")
+    total = zero_big_decimal
     item_counts.each do |code, count|
       if count > 0
         price = BigDecimal(@catalogue.price(code).to_s).truncate(2)
@@ -54,10 +54,16 @@ class Basket
   def delivery_charge(subtotal)
     subtotal == 0 ? 0.0 : @delivery_rule.charge(subtotal.to_f)
   end
+
+  private
+
+  def zero_big_decimal
+    BigDecimal("0.0")
+  end
 end
 
 # Usage example (uncomment to test)
-basket = Basket.new(catalogue: CATALOGUE, delivery_rule: DELIVERY, offers: OFFERS)
-basket.add("R01")
-basket.add("R01")
-puts basket.total
+# basket = Basket.new(catalogue: CATALOGUE, delivery_rule: DELIVERY, offers: OFFERS)
+# basket.add("R01")
+# basket.add("R01")
+# puts basket.total
