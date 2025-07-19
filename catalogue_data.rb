@@ -1,12 +1,13 @@
-# catalogue_data.rb
-# Product, delivery, and offer data for Acme Widget Co
+# Load Product, delivery, and offer data for Acme Widget Co
 
 require 'yaml'
 require_relative 'offers/all'
 
-PRODUCTS = YAML.load_file(File.join(__dir__, 'config/products.yml'))
+PRODUCTS_PATH = File.join(__dir__, 'config/products.yml')
+DELIVERY_PATH = File.join(__dir__, 'config/delivery_rules.yml')
 
-raw_delivery_rules = YAML.load_file(File.join(__dir__, 'config/delivery_rules.yml'))
+PRODUCTS = YAML.load_file(PRODUCTS_PATH)
+raw_delivery_rules = YAML.load_file(DELIVERY_PATH)
 
 DELIVERY_RULES = raw_delivery_rules.map do |rule|
   threshold = rule['threshold'] == 'Infinity' ? Float::INFINITY : rule['threshold']
