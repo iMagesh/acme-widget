@@ -52,10 +52,8 @@ class Basket
   end
 
   def delivery_charge(subtotal)
-    subtotal == 0 ? 0.0 : @delivery_rule.charge(subtotal.to_f)
+    subtotal.zero? ? 0.0 : @delivery_rule.charge(subtotal.to_f)
   end
-
-  private
 
   def zero_big_decimal
     BigDecimal("0.0")
