@@ -73,18 +73,23 @@ PASS: B01, G01 => $37.85 (expected $37.85)
 
 ## Folder structure:
 
-```text
-basket.rb                  # Main basket logic
-product_catalogue.rb       # Product catalogue
-delivery_rule.rb           # Delivery charge rules
-offers/                    # Offer strategies
-  base.rb                  # Offer base class
-  buy_one_get_one_half_price.rb  # Red widget offer logic
-  all_offers.rb            # Offer loader/registry
-catalogue_data.rb          # Loads product and delivery data from YAML
-config/products.yml        # Product catalogue (edit to change products/prices)
-config/delivery_rules.yml  # Delivery rules (edit to change thresholds/charges)
-tests/basket.rb            # Test cases
+Folder structure:
+
+```
+acme-widget/
+|-- basket.rb                  # Main basket logic
+|-- product_catalogue.rb       # Product catalogue
+|-- delivery_rule.rb           # Delivery charge rules
+|-- offers/
+|   |-- base.rb                # Offer base class
+|   |-- buy_one_get_one_half_price.rb  # Red widget offer logic
+|   |-- all_offers.rb          # Offer loader/registry
+|-- catalogue_data.rb          # Loads product and delivery data from YAML
+|-- config/
+|   |-- products.yml           # Product catalogue (edit to change products/prices)
+|   |-- delivery_rules.yml     # Delivery rules (edit to change thresholds/charges)
+|-- tests/
+|   |-- basket.rb              # Test cases
 ```
 
 - Prices and delivery charges are hardcoded for this proof of concept.
