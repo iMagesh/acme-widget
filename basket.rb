@@ -5,7 +5,7 @@ require_relative 'product_catalogue'
 require_relative 'delivery_rule'
 require_relative 'offers/all' # Load all offers
 # --- Data setup ---
-require_relative 'catalogue_data'
+require_relative 'data/catalogue_data'
 
 # Main basket class
 class Basket

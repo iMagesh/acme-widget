@@ -1,10 +1,10 @@
 # Load Product, delivery, and offer data for Acme Widget Co
 
 require 'yaml'
-require_relative 'offers/all'
+require_relative '../offers/all'
 
-PRODUCTS_PATH = File.join(__dir__, 'config/products.yml')
-DELIVERY_PATH = File.join(__dir__, 'config/delivery_rules.yml')
+PRODUCTS_PATH = File.join(__dir__, '../config/products.yml')
+DELIVERY_PATH = File.join(__dir__, '../config/delivery_rules.yml')
 
 PRODUCTS = YAML.load_file(PRODUCTS_PATH)
 raw_delivery_rules = YAML.load_file(DELIVERY_PATH)
